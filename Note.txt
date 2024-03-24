@@ -1,0 +1,176 @@
+SQL
+
+We will see 
+  1. How to create database and store data in the database
+  2. How to play the tables like update, filtering
+  3. Querying
+  4. Joins 
+  5. Aggregate Functions - MAX,MIN
+  6. Advanced SQL (WITH , window function)
+  7. Interview Questions
+
+
+Database - place to store data - library 
+RDBMS -( Relational Database Management System )
+  Stores data in table form rows nd column
+
+Datatype
+  - what kind of information is stored
+  INT, VARCHAR , DATE, CHAR
+
+Query falls into 
+
+ 1. Data Definition Language
+
+    schema of the database and how we create , modify and delete the database
+
+2. Data Manipulation Language
+
+    Manipulate the data which is stored in our database 
+
+3. Data Control Languages 
+ 
+    Mostly concern with rights and permissions to db - revoke, grant
+
+4. Transaction Control Language
+
+    Deals with transaction - rollbck, commit, savepoint
+
+
+Data Definition Language-DDL 
+
+ 1.CREATE
+
+ CREATE DATABASE CINEMA;
+
+ USE DATABASE CINEMA;
+
+ CREATE table Movies(
+    movie_id INT PRIMARY KEY,
+    Name VARCHAR(30),
+    Released-Year YEAR,
+    Hero VARCHAR(255),
+    DOB VARCHAR(255),
+    Collection INT,
+ )
+
+ 2.ALTER
+
+  ALTER TABLE Movies ADD Languages VARCHAR(40)
+  ALTER TABLE Movie MODIFY COLUMN DOB INT
+  ALTER TABLE Movies DROP COLUMN DOB
+
+
+ 3.DROP
+  
+  DROP DATABASE 
+  DROP TABLE Movies
+
+
+CONSTRAINTS
+
+    - set of extra rules to be followed
+    NOT NULL, UNIQUE, PRIMARY KEY , FOREIGN KEY, CHECK, AUTOINCREMENT, DEFAULT
+
+  1.NOT NULL (NO empty pocket)
+    
+    This will not accept null
+
+    Ex -->  CREATE table Movies(
+                movie_id INT NOT NULL AUTOINCREMENT,
+                Name VARCHAR(30),
+                Released-Year YEAR,
+                Hero VARCHAR(255),
+                Collection INT,
+            )
+   2.UNIQUE  
+    
+    All values are unique in the field
+
+    Ex -->  CREATE table Movies(
+                movie_id INT UNIQUE  ,
+                Name VARCHAR(30) UNIQUE,
+                Released-Year YEAR,
+                Hero VARCHAR(255) UNIQUE ,
+                Collection INT,
+            )
+    3.PRIMARY KEY  (DNA)
+    
+     Keeps each rows different
+
+            Method 1
+    Ex -->  CREATE table Movies(
+                movie_id INT PRIMARY KEY,
+                Name VARCHAR(30),
+                Released-Year YEAR,
+                Hero VARCHAR(255),
+                 Collection INT,
+            )
+
+             Method 2
+    Ex -->  CREATE table Movies(
+                movie_id INT,
+                Name VARCHAR(30),
+                Released-Year YEAR,
+                Hero VARCHAR(255),
+                Collection INT,
+                CONSTRAINT movie_key PRIMARY KEY (movie_id)
+            )
+
+    ALTER TABLE Persons
+    ADD PRIMARY KEY (ID);   ---> Update Primary Key
+
+    ALTER TABLE Persons
+    DROP PRIMARY KEY;       ---> Delete Primary Key
+      
+   There are 2 main different between unique and primary key
+
+   4.FOREIGN KEY
+
+   When it is a primary key of another table
+
+   Method 1
+
+    TABLE1          CREATE table Movies(
+                        movie_id INT PRIMARY KEY,
+                        Name VARCHAR(30),
+                        Released-Year YEAR,
+                        Hero VARCHAR(255),
+                        Collection INT,
+                    )
+    TABLE2          CREATE table Actors(
+                        actor_id INT PRIMARY KEY,
+                        Name VARCHAR(30),
+                        Age INT,
+                        movie_id INT,
+                        Salary INT
+                        FOREIGN KEY (movie_id) REFERENCES Movies(movie_id)
+                    )
+
+ 
+    ALTER TABLE Actors
+    ADD FOREIGN KEY (movie_id) REFERENCES Actors(movie_id);
+
+    5.CHECK 
+
+    checks the conditions 
+
+     CREATE table Actors(
+                        actor_id INT PRIMARY KEY,
+                        Name VARCHAR(30),
+                        Age INT CHECK (Age>=18),
+                        movie_id INT,
+                        Salary INT CHECK (Salary>=5,00,000)
+      )
+
+    6.DEFAULT 
+
+      used to set default value
+
+      CREATE table Actors(
+                        actor_id INT PRIMARY KEY,
+                        Name VARCHAR(30),
+                        Age INT,
+                        movie_id INT,
+                        Salary INT DEFAULT '5,00,000'
+      )
